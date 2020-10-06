@@ -21,14 +21,6 @@ const boxesAmountRef = document.querySelector('#controls input');
 const renderBtnRef = document.querySelector('[data-action="render"]');
 const destroyBtnRef = document.querySelector('[data-action="destroy"]');
 
-function createBox(size) {
-  const box = document.createElement('div');
-  box.style.width = `${size}px`;
-  box.style.height = `${size}px`;
-  box.style.backgroundColor = getRandomColor();
-  return box;
-}
-
 function getRandomColor() {
   let r = Math.floor(Math.random() * (255 - 0));
   let g = Math.floor(Math.random() * (255 - 0));
@@ -36,20 +28,15 @@ function getRandomColor() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function renderBoxes(amount) {
-  const listFragment = document.createDocumentFragment();
-
+function createBoxes(amount) {
   for (let i = 1; i <= amount; i += 1) {
     const size = 20 + i * 10;
-    const div = createBox(size);
-    listFragment.appendChild(div);
+    const boxElement = document.createElement('div');
+    boxElement.style.width = `${size}px`;
+    boxElement.style.height = `${size}px`;
+    boxElement.style.backgroundColor = getRandomColor();
+    boxesContainerRef.appendChild(boxElement);
   }
-  boxesContainerRef.appendChild(listFragment);
-}
-
-function createBoxes() {
-  const amount = Number(boxesAmountRef.value);
-  renderBoxes(amount);
 }
 
 function destroyBoxes() {
@@ -57,7 +44,7 @@ function destroyBoxes() {
 }
 
 renderBtnRef.addEventListener('click', event => {
-  createBoxes();
+  createBoxes(boxesAmountRef.value);
 });
 destroyBtnRef.addEventListener('click', event => {
   destroyBoxes();
